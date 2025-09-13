@@ -1,5 +1,5 @@
 import { GiChefToque, GiForkKnifeSpoon } from "react-icons/gi";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   FiHome,
   FiBook,
@@ -231,25 +231,27 @@ const Navbar = () => {
           onClick={() => setShowRegisterModal(false)} // outside click closes modal
         >
           <div
-            className="bg-gradient-to-br from-[#2D1B0E] to-[#4a372a] rounded-xl p-8 w-full max-w-[480px] relative border-4 border-amber-700/30 shadow-[0_0_30px] shadow-amber-500/30"
+            className="bg-gradient-to-br from-[#2D1B0E] to-[#4a372a] rounded-xl p-4 md:p-8 w-full max-w-[360px] sm:max-w-[360px] md:max-w-[440px] lg:max-w-[480px] relative border-4 border-amber-700/30 shadow-[0_0_30px] shadow-amber-500/30"
             onClick={(e) => e.stopPropagation()} // prevent closing on inner click
           >
             {/* Close Button */}
             <button
               onClick={() => setShowRegisterModal(false)}
-              className="absolute top-3 right-3 text-amber-500 hover:text-amber-300 text-3xl"
+              className="absolute top-3 right-3 text-2xl md:text-3xl text-amber-500 hover:text-amber-300"
             >
               &times;
             </button>
 
             {/* Title */}
-            <h2 className="text-3xl font-bold text-amber-400 mb-6 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-amber-400 mb-4 md:mb-6 text-center">
               Create Your Account
             </h2>
 
-            <Register></Register>
+            {/* Register Form */}
+            <Register />
+
             {/* Switch to Login */}
-            <p className="text-sm text-center text-amber-200 mt-6">
+            <p className="text-sm md:text-base text-center text-amber-200 mt-4 md:mt-6">
               Already have an account?{" "}
               <span
                 onClick={() => {

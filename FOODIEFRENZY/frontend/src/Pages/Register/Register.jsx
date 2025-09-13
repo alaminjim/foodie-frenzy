@@ -1,11 +1,8 @@
-import { useNavigate } from "react-router-dom";
-
 const Register = () => {
-  const navigate = useNavigate();
   return (
     <div>
       {/* Register Form */}
-      <form className="space-y-5">
+      <form className="space-y-2.5 md:space-y-3 lg:space-y-5">
         {/* Name */}
         <div>
           <label className="block text-amber-200 mb-1 font-semibold">
