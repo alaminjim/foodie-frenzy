@@ -9,16 +9,20 @@ import {
   FiLogOut,
   FiKey,
 } from "react-icons/fi";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useCart } from "../Context/CartContext";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import { AuthContext } from "../Provider/AuthProvider";
+import toast from "react-hot-toast";
+import SocialLogin from "../Pages/Social/SocialLogin";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const totalItems = useCart();
+  const { user, userLogout, setUser } = useContext(AuthContext);
 
   const navLinks = [
     { name: "Home", to: "/", icon: <FiHome /> },
@@ -26,6 +30,18 @@ const Navbar = () => {
     { name: "About", to: "/about", icon: <FiStar /> },
     { name: "Contact", to: "/contact", icon: <FiPhone /> },
   ];
+
+  const handleLogout = () => {
+    userLogout()
+      .then(() => {
+        setUser(null);
+        toast.success("logout successful");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
+
   return (
     <nav className="bg-[#2D1B0E] border-b-8 border-amber-900/30 shadow-amber-900/30 sticky top-0 z-50 shadow-[0_25px_50px_-12px] font-vibes overflow-x-hidden">
       {/* Gradient line with embedded icons */}
@@ -94,14 +110,25 @@ const Navbar = () => {
               )}
             </NavLink>
             {/* Login Button */}
-            <button
-              onClick={() => setShowLoginModal(true)}
-              className="px-4 py-2 rounded-xl shadow-md shadow-amber-900/20 transition-all
+            {user && user?.email ? (
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 rounded-xl shadow-md shadow-amber-900/20 transition-all
              bg-gradient-to-r from-amber-400 to-amber-600  hover:from-amber-300 hover:to-amber-500 flex items-center justify-center gap-1.5 text-black font-bold"
-            >
-              <FiKey className="text-lg"></FiKey>
-              Login
-            </button>
+              >
+                <FiLogOut className="text-lg"></FiLogOut>
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowLoginModal(true)}
+                className="px-4 py-2 rounded-xl shadow-md shadow-amber-900/20 transition-all
+             bg-gradient-to-r from-amber-400 to-amber-600  hover:from-amber-300 hover:to-amber-500 flex items-center justify-center gap-1.5 text-black font-bold"
+              >
+                <FiKey className="text-lg"></FiKey>
+                Login
+              </button>
+            )}
           </div>
         </div>
 
@@ -206,7 +233,20 @@ const Navbar = () => {
               Foodie-Frenzy Login{" "}
             </h2>
 
-            <Login></Login>
+            <Login setShowLoginModal={setShowLoginModal}></Login>
+
+            {/* Divider */}
+            <div className="my-4 flex items-center">
+              <hr className="flex-grow border-amber-700" />
+              <span className="px-3 text-amber-300 text-sm">OR</span>
+              <hr className="flex-grow border-amber-700" />
+            </div>
+
+            {/* social  */}
+            <SocialLogin
+              closeModal={() => setShowLoginModal(false)}
+            ></SocialLogin>
+
             {/* Switch to Register */}
             <p className="text-sm text-center text-amber-200 mt-6">
               Don’t have an account?{" "}
@@ -248,7 +288,19 @@ const Navbar = () => {
             </h2>
 
             {/* Register Form */}
-            <Register />
+            <Register setShowRegisterModal={setShowRegisterModal} />
+
+            {/* Divider */}
+            <div className="my-4 flex items-center">
+              <hr className="flex-grow border-amber-700" />
+              <span className="px-3 text-amber-300 text-sm">OR</span>
+              <hr className="flex-grow border-amber-700" />
+            </div>
+
+            {/* social  */}
+            <SocialLogin
+              closeModal={() => setShowRegisterModal(false)}
+            ></SocialLogin>
 
             {/* Switch to Login */}
             <p className="text-sm md:text-base text-center text-amber-200 mt-4 md:mt-6">
