@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
 import Swal from "sweetalert2";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Register = ({ setShowRegisterModal }) => {
   const { createUserRegister, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

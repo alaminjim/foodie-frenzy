@@ -21,7 +21,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
-  const totalItems = useCart();
+  const { totalItems } = useCart();
   const { user, userLogout, setUser } = useContext(AuthContext);
 
   const navLinks = [
@@ -34,8 +34,9 @@ const Navbar = () => {
   const handleLogout = () => {
     userLogout()
       .then(() => {
-        setUser(null);
+        console.log("logged out");
         toast.success("logout successful");
+        setUser(null);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -60,104 +61,108 @@ const Navbar = () => {
       </div>
 
       {/* Main navbar section */}
-      <div className="max-w-7xl mx-auto px-4 b-6 md:py-4 lg:py-5 flex justify-between items-center">
-        {/* Logo */}
-        <div className="flex items-center space-x-2 md:translate-x-4 lg:translate-x-6">
-          <GiChefToque className="text-3xl md:text-4xl lg:text-5xl text-amber-500 transition-transform hover:rotate-12" />
-          <NavLink
-            to="/"
-            className="text-2xl md:text-xl lg:text-4xl bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent font-monsieur tracking-wider"
-          >
-            Foodie-Frenzy
-            <div className="h-[3px] bg-gradient-to-r from-amber-600/30 via-amber-400/50 to-amber-600/30 w-full mt-1 mr-2  shadow-amber-500/50"></div>
-          </NavLink>
-        </div>
-
-        {/* desktop icon */}
-        <div className="hidden md:flex items-center space-x-2 md:space-x-1 lg:space-x-4 flex-1 justify-end">
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.name}
-              to={link.to}
-              className={({ isActive }) =>
-                `group px-3 md:px-3 lg:px-4 py-2 md:py-2 lg:py-2 text-sm md:text-[15px] lg:text-base relative transition-all duration-300 flex items-center hover:bg-amber-900/20 rounded-3xl border-2 ${
-                  isActive
-                    ? "border-amber-600/50 bg-amber-900/20 shadow-[inset_0_0_15px] shadow-amber-500/20"
-                    : "border-amber-900/30 hover:border-amber-600/50"
-                } shadow-md shadow-amber-900/20`
-              }
-            >
-              <span className="mr-2 text-sm md:text-[15px] lg:text-base text-amber-500 group-hover:text-amber-300 transition-all">
-                {link.icon}
-              </span>
-              <span className="text-amber-100 group-hover:text-amber-300 relative">
-                {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-amber-400 transition-all group-hover:w-full " />
-              </span>
-            </NavLink>
-          ))}
-
-          <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4 ml-3 md:ml-3 lg:ml-6 mr-2 md:mr-3 lg:mr-4">
-            <NavLink
-              to="/cart"
-              className="p-2 md:p-2.0 lg:p-3 text-amber-100 rounded-xl transition-all relative   hover:text-amber-400  hover:shadow-lg hover:shadow-amber-500/30 shadow-md shadow-amber-900/20"
-            >
-              <FiShoppingCart className="text-base md:text-lg lg:text-lg"></FiShoppingCart>
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-amber-600 text-amber-100 text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
-            </NavLink>
-            {/* Login Button */}
-            {user && user?.email ? (
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 rounded-xl shadow-md shadow-amber-900/20 transition-all
-             bg-gradient-to-r from-amber-400 to-amber-600  hover:from-amber-300 hover:to-amber-500 flex items-center justify-center gap-1.5 text-black font-bold"
+      {!showRegisterModal && (
+        <>
+          <div className="max-w-7xl mx-auto px-4 b-6 md:py-4 lg:py-5 flex justify-between items-center">
+            {/* Logo */}
+            <div className="flex items-center space-x-2 md:translate-x-4 lg:translate-x-6">
+              <GiChefToque className="text-3xl md:text-4xl lg:text-5xl text-amber-500 transition-transform hover:rotate-12" />
+              <NavLink
+                to="/"
+                className="text-2xl md:text-xl lg:text-4xl bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent font-monsieur tracking-wider"
               >
-                <FiLogOut className="text-lg"></FiLogOut>
-                Logout
-              </button>
-            ) : (
-              <button
-                onClick={() => setShowLoginModal(true)}
-                className="px-4 py-2 rounded-xl shadow-md shadow-amber-900/20 transition-all
-             bg-gradient-to-r from-amber-400 to-amber-600  hover:from-amber-300 hover:to-amber-500 flex items-center justify-center gap-1.5 text-black font-bold"
-              >
-                <FiKey className="text-lg"></FiKey>
-                Login
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        <div className="md:hidden flex items-center mr-2">
-          <button
-            className="text-amber-500 hover:text-amber-300 focus:outline-none transition-all p-2.5 pt-1 rounded-xl border-2 border-amber-900/30 hover:border-amber-600/50 relative shadow-md shadow-amber-600/50 hover:shadow-lg hover:shadow-amber-500/30"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <div className="space-y-2 relative">
-              <span
-                className={`block w-6 h-[2px] bg-current transition-all ${
-                  isOpen ? "rotate-45 translate-y-[7px]" : ""
-                }`}
-              ></span>
-              <span
-                className={`block w-6 h-[2px] bg-current ${
-                  isOpen ? "opacity-0" : ""
-                }`}
-              ></span>
-              <span
-                className={`block w-6 h-[2px] bg-current transition-all ${
-                  isOpen ? "-rotate-45 -translate-y-[7px]" : ""
-                }`}
-              ></span>
+                Foodie-Frenzy
+                <div className="h-[3px] bg-gradient-to-r from-amber-600/30 via-amber-400/50 to-amber-600/30 w-full mt-1 mr-2  shadow-amber-500/50"></div>
+              </NavLink>
             </div>
-          </button>
-        </div>
-      </div>
+
+            {/* desktop icon */}
+            <div className="hidden md:flex items-center space-x-2 md:space-x-1 lg:space-x-4 flex-1 justify-end">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.name}
+                  to={link.to}
+                  className={({ isActive }) =>
+                    `group px-3 md:px-3 lg:px-4 py-2 md:py-2 lg:py-2 text-sm md:text-[15px] lg:text-base relative transition-all duration-300 flex items-center hover:bg-amber-900/20 rounded-3xl border-2 ${
+                      isActive
+                        ? "border-amber-600/50 bg-amber-900/20 shadow-[inset_0_0_15px] shadow-amber-500/20"
+                        : "border-amber-900/30 hover:border-amber-600/50"
+                    } shadow-md shadow-amber-900/20`
+                  }
+                >
+                  <span className="mr-2 text-sm md:text-[15px] lg:text-base text-amber-500 group-hover:text-amber-300 transition-all">
+                    {link.icon}
+                  </span>
+                  <span className="text-amber-100 group-hover:text-amber-300 relative">
+                    {link.name}
+                    <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-amber-400 transition-all group-hover:w-full " />
+                  </span>
+                </NavLink>
+              ))}
+
+              <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4 ml-3 md:ml-3 lg:ml-6 mr-2 md:mr-3 lg:mr-4">
+                <NavLink
+                  to="/cart"
+                  className="p-2 md:p-2.0 lg:p-3 text-amber-100 rounded-xl transition-all relative   hover:text-amber-400  hover:shadow-lg hover:shadow-amber-500/30 shadow-md shadow-amber-900/20"
+                >
+                  <FiShoppingCart className="text-base md:text-lg lg:text-lg"></FiShoppingCart>
+                  {totalItems > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-amber-600 text-amber-100 text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                      {totalItems}
+                    </span>
+                  )}
+                </NavLink>
+                {/* Login Button */}
+                {user && user?.email ? (
+                  <button
+                    onClick={handleLogout}
+                    className="px-4 py-2 rounded-xl shadow-md shadow-amber-900/20 transition-all
+             bg-gradient-to-r from-amber-400 to-amber-600  hover:from-amber-300 hover:to-amber-500 flex items-center justify-center gap-1.5 text-black font-bold"
+                  >
+                    <FiLogOut className="text-lg"></FiLogOut>
+                    Logout
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setShowLoginModal(true)}
+                    className="px-4 py-2 rounded-xl shadow-md shadow-amber-900/20 transition-all
+             bg-gradient-to-r from-amber-400 to-amber-600  hover:from-amber-300 hover:to-amber-500 flex items-center justify-center gap-1.5 text-black font-bold"
+                  >
+                    <FiKey className="text-lg"></FiKey>
+                    Login
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Mobile menu */}
+            <div className="md:hidden flex items-center mr-2">
+              <button
+                className="text-amber-500 hover:text-amber-300 focus:outline-none transition-all p-2.5 pt-1 rounded-xl border-2 border-amber-900/30 hover:border-amber-600/50 relative shadow-md shadow-amber-600/50 hover:shadow-lg hover:shadow-amber-500/30"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <div className="space-y-2 relative">
+                  <span
+                    className={`block w-6 h-[2px] bg-current transition-all ${
+                      isOpen ? "rotate-45 translate-y-[7px]" : ""
+                    }`}
+                  ></span>
+                  <span
+                    className={`block w-6 h-[2px] bg-current ${
+                      isOpen ? "opacity-0" : ""
+                    }`}
+                  ></span>
+                  <span
+                    className={`block w-6 h-[2px] bg-current transition-all ${
+                      isOpen ? "-rotate-45 -translate-y-[7px]" : ""
+                    }`}
+                  ></span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* navigation */}
       {isOpen && (
@@ -197,14 +202,25 @@ const Navbar = () => {
               </NavLink>
 
               {/* Login Button */}
-              <button
-                onClick={() => setShowLoginModal(true)}
-                className="w-full px-4 py-3 rounded-xl shadow-md shadow-amber-900/20 transition-all
+              {user && user?.email ? (
+                <button
+                  onClick={handleLogout}
+                  className="w-full px-4 py-2 rounded-xl shadow-md shadow-amber-900/20 transition-all
              bg-gradient-to-r from-amber-400 to-amber-600  hover:from-amber-300 hover:to-amber-500 flex items-center justify-center gap-1.5 text-black font-bold"
-              >
-                <FiKey className="text-lg"></FiKey>
-                Login
-              </button>
+                >
+                  <FiLogOut className="text-lg"></FiLogOut>
+                  Logout
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowLoginModal(true)}
+                  className="w-full px-4 py-2 rounded-xl shadow-md shadow-amber-900/20 transition-all
+             bg-gradient-to-r from-amber-400 to-amber-600  hover:from-amber-300 hover:to-amber-500 flex items-center justify-center gap-1.5 text-black font-bold"
+                >
+                  <FiKey className="text-lg"></FiKey>
+                  Login
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -267,7 +283,7 @@ const Navbar = () => {
       {/* Register Modal */}
       {showRegisterModal && (
         <div
-          className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+          className="min-h-screen bg-[#1a120b] flex items-center justify-center p-4"
           onClick={() => setShowRegisterModal(false)} // outside click closes modal
         >
           <div

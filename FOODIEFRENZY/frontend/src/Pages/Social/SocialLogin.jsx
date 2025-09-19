@@ -11,7 +11,9 @@ const SocialLogin = ({ closeModal }) => {
       .then((result) => {
         const users = result.user;
         setUser(users);
-        if (closeModal) return closeModal();
+        if (closeModal) {
+          closeModal();
+        }
         toast.success("Login successful");
       })
       .catch((error) => {

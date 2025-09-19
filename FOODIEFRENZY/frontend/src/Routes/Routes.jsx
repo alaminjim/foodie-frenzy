@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     element: <Layouts></Layouts>,
     children: [
       {
-        index: true,
+        path: "/",
         element: <Home></Home>,
       },
       {

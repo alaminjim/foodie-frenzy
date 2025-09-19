@@ -34,10 +34,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const userLogout = () => {
-    setLoading(true);
-    signOut(auth).then(() => {
-      setUser(null);
-    });
+    return signOut(auth);
   };
 
   useEffect(() => {

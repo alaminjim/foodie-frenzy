@@ -2,6 +2,7 @@ import { useContext } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
+import toast from "react-hot-toast";
 
 const Login = ({ setShowLoginModal }) => {
   const { createUserLogin, setUser } = useContext(AuthContext);
@@ -18,12 +19,7 @@ const Login = ({ setShowLoginModal }) => {
       const result = await createUserLogin(email, password);
       const loginUser = result.user;
       setUser(loginUser);
-      Swal.fire({
-        title: "Login Successful",
-        text: "User LoggedIn",
-        icon: "success",
-        confirmButtonText: "Cool",
-      });
+      toast.success("login successful");
       navigate("/");
       setShowLoginModal(false);
     } catch (error) {
