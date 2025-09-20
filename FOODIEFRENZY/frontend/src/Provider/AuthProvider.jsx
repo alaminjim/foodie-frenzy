@@ -12,7 +12,7 @@ import auth from "../Firebase/firebase.init";
 
 const provider = new GoogleAuthProvider();
 
-export const AuthContext = createContext();
+export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState("");
@@ -45,9 +45,7 @@ export const AuthProvider = ({ children }) => {
       console.log("userLogged-->", currentUser?.email);
       setLoading(false);
 
-      return () => {
-        return unsubscribe();
-      };
+      return () => unsubscribe();
     });
   }, []);
 
