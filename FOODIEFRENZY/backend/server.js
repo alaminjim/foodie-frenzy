@@ -5,9 +5,16 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import { connectDB } from "./Config/db.js";
 import userRouter from "./route/userRoute.js";
+import path from "path";
+import { fileURLToPath } from "url";
+import itemRouter from "./route/itemRoute.js";
+import cartRouter from "./route/cartRoute.js";
 
 const app = express();
 const port = process.env.PORT || 4000;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // middleware
 
@@ -39,6 +46,9 @@ connectDB();
 // routes
 
 app.use("/api/user", userRouter);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/items", itemRouter);
+app.use("/api/cart", cartRouter);
 
 app.get("/", (req, res) => {
   res.send("Foodie-frenzy ready to food delivery");

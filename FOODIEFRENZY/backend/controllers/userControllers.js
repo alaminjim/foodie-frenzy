@@ -56,7 +56,7 @@ export const registerUser = async (req, res) => {
 
     // JWT token
     const token = jwt.sign({ uid: user.uid }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
+      expiresIn: "365d",
     });
     res.cookie("token", token, {
       httpOnly: true,
@@ -89,7 +89,7 @@ export const loginUser = async (req, res) => {
 
     // JWT token
     const token = jwt.sign({ uid: user.uid }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
+      expiresIn: "365d",
     });
     res.cookie("token", token, {
       httpOnly: true,
