@@ -9,6 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import itemRouter from "./route/itemRoute.js";
 import cartRouter from "./route/cartRoute.js";
+import orderRouter from "./route/orderRoute.js";
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -49,6 +50,7 @@ app.use("/api/user", userRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/items", itemRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/orders", orderRouter);
 
 app.get("/", (req, res) => {
   res.send("Foodie-frenzy ready to food delivery");

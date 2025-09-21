@@ -11,7 +11,6 @@ const authMiddleware = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Firebase UID string 그대로 ব্যবহার
     req.user = { _id: decoded.uid };
     next();
   } catch (err) {
