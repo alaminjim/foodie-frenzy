@@ -122,7 +122,7 @@ const Footer = () => {
               target="_blank"
               className="text-lg font-sacramento bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 bg-clip-text text-transparent hover:text-purple-300 transition-all duration-300"
             >
-              Designed by Hexagon Digital Services.
+              Designed by Team_Tech Digital Services.
             </a>
           </div>
         </div>
