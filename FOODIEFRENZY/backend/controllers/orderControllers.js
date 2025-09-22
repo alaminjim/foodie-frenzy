@@ -175,7 +175,7 @@ export const getOrders = async (req, res) => {
 
 export const getAllOrders = async (req, res) => {
   try {
-    const raw = await Order.find({}).sort({ createAt: -1 }).lean();
+    const raw = await Order.find({}).sort({ createdAt: -1 }).lean();
 
     const formatted = raw.map((o) => ({
       _id: o._id,
@@ -191,14 +191,17 @@ export const getAllOrders = async (req, res) => {
       paymentMethod: o.paymentMethod,
       paymentStatus: o.paymentStatus,
       status: o.status,
-      createAt: o.createAt,
+      createdAt: o.createdAt, // typo fix: createAt → createdAt
 
-      items: o.items.map((i) => ({
-        _id: i._id,
-        item: i.item,
-        quantity: i.quantity,
-      })),
+      items: Array.isArray(o.items)
+        ? o.items.map((i) => ({
+            _id: i._id,
+            item: i.item,
+            quantity: i.quantity,
+          }))
+        : [],
     }));
+
     res.send(formatted);
   } catch (error) {
     console.log("admin route error", error);

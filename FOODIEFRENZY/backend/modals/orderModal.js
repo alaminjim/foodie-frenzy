@@ -4,7 +4,7 @@ const orderItemSchema = new mongoose.Schema(
   {
     item: {
       name: { type: String, required: true },
-      price: { type: String, required: true, min: 0 },
+      price: { type: Number, required: true, min: 0 },
       imageUrl: { type: String, required: true },
     },
     quantity: { type: Number, required: true, min: 1 },
@@ -16,7 +16,7 @@ const orderSchema = new mongoose.Schema({
   // userinfo
   user: {
     type: String,
-    ref: "User", // optional, যদি তুমি MongoDB User model এ uid হিসেবে string save করে থাকো
+    ref: "User",
     required: true,
   },
   email: { type: String, required: true, index: true },
@@ -65,8 +65,8 @@ const orderSchema = new mongoose.Schema({
 
   //   timestamp
 
-  createAt: { type: Date, default: Date.now, index: true },
-  updateAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now, index: true },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 orderSchema.index({ user: 1, createAt: -1 });
