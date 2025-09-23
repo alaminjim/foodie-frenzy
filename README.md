@@ -1,6 +1,6 @@
 # 🍔 Foodie Frenzy
 
-[Live Demo](https://quiet-belekoy-ad3587.netlify.app)
+[Live Demo] https://foodie-frenzy-121q.netlify.app
 
 Foodie Frenzy is an interactive web application designed for food lovers to **discover, save, and share recipes**. Users can explore a wide variety of dishes, bookmark favorites, and share their culinary ideas with the community. The platform emphasizes **ease of use, responsiveness, and modern web design**.
 
