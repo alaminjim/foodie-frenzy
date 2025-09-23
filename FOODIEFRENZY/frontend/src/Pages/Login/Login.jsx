@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet";
 
 const Login = ({ onSuccess }) => {
   const { createUserLogin, setUser } = useContext(AuthContext);
@@ -33,6 +34,10 @@ const Login = ({ onSuccess }) => {
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
+      <Helmet>
+        <title>Foodie | login</title>
+        <meta name="description" content="Contact page of my website" />
+      </Helmet>
       <div>
         <label className="block text-amber-200 mb-1">Email</label>
         <input

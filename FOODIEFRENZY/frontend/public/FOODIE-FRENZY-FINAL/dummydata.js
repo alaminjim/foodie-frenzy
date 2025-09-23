@@ -166,7 +166,7 @@ export const cardData = [
     description: "Juicy grilled meat with authentic spices",
     image: Kebab,
     popular: true,
-    price: "₹40",
+    price: "40",
   },
   {
     id: 2,
@@ -176,7 +176,7 @@ export const cardData = [
     description: "Tender chicken marinated in sauce",
     image: ChickenTikka,
     bestseller: true,
-    price: "₹140",
+    price: "140",
   },
   {
     id: 3,
@@ -185,7 +185,7 @@ export const cardData = [
     hearts: 85,
     description: "Spicy Asian noodles with a local twist",
     image: DesiChowmein,
-    price: "₹60",
+    price: "60",
   },
   {
     id: 4,
@@ -195,7 +195,7 @@ export const cardData = [
     description: "Crispy golden fried whole chicken",
     image: ChickenChargha,
     special: true,
-    price: "₹200",
+    price: "200",
   },
 ];
 export const additionalData = [
@@ -207,7 +207,7 @@ export const additionalData = [
     description: "Cottage cheese marinated in spices",
     image: PaneerTikka,
     popular: true,
-    price: "₹220",
+    price: "220",
   },
   {
     id: 6,
@@ -216,7 +216,7 @@ export const additionalData = [
     hearts: 165,
     description: "Crispy rice crepe with potato filling",
     image: MasalaDosa,
-    price: "₹180",
+    price: "180",
   },
   {
     id: 7,
@@ -225,7 +225,7 @@ export const additionalData = [
     hearts: 190,
     description: "Spinach curry with cottage cheese",
     image: PalakPaneer,
-    price: "₹200",
+    price: "200",
   },
   {
     id: 8,
@@ -235,7 +235,7 @@ export const additionalData = [
     description: "Golden dumplings in rose syrup",
     image: GulabJamun,
     special: true,
-    price: "₹30",
+    price: "30",
   },
 ];
 

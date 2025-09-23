@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
   createContext,
   useCallback,
@@ -13,13 +14,13 @@ const cartReducer = (state, action) => {
     case "ADD_ITEM": {
       const { item, quantity } = action.payload;
       const existingItem = state.find((i) => i.id === item.id);
-
-      // ensure price is always a number
-      const parsedPrice = parseFloat(item.price);
+      const parsedPrice = Number(item.price) || 0;
 
       if (existingItem) {
         return state.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + quantity } : i
+          i.id === item.id
+            ? { ...i, quantity: i.quantity + quantity, price: parsedPrice }
+            : i
         );
       }
       return [...state, { ...item, price: parsedPrice, quantity }];
@@ -39,6 +40,10 @@ const cartReducer = (state, action) => {
       );
     }
 
+    case "CLEAR_CART": {
+      return [];
+    }
+
     default:
       return state;
   }
@@ -55,30 +60,29 @@ const initializer = () => {
 export const CartProvider = ({ children }) => {
   const [cartItems, dispatch] = useReducer(cartReducer, [], initializer);
 
-  // save cart to localStorage
+  // Save cart to localStorage
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // calculate total cost
+  // Calculate total cost
   const cartTotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + Number(item.price) * item.quantity,
     0
   );
 
-  // total items count (numeric)
+  // Total items count
   const totalItemsCount = cartItems.reduce(
     (sum, item) => sum + item.quantity,
     0
   );
 
-  // optional: large number format for display somewhere else
   const formattedTotalItems =
     totalItemsCount >= 1000
       ? (totalItemsCount / 1000).toFixed(1) + "k"
       : totalItemsCount;
 
-  // dispatcher wrapped
+  // Dispatcher wrappers
   const addToCart = useCallback((item, quantity = 1) => {
     dispatch({ type: "ADD_ITEM", payload: { item, quantity } });
   }, []);
@@ -91,6 +95,10 @@ export const CartProvider = ({ children }) => {
     dispatch({ type: "UPDATE_QUANTITY", payload: { itemId, newQuantity } });
   }, []);
 
+  const clearCart = useCallback(() => {
+    dispatch({ type: "CLEAR_CART" });
+  }, []);
+
   return (
     <CartContext.Provider
       value={{
@@ -98,8 +106,9 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         updateQuantity,
+        clearCart,
         cartTotal,
-        totalItems: totalItemsCount, // numeric value for cart icon
+        totalItems: totalItemsCount,
         formattedTotalItems,
       }}
     >
@@ -110,5 +119,5 @@ export const CartProvider = ({ children }) => {
 
 export default CartContext;
 
-// eslint-disable-next-line react-refresh/only-export-components
+// Hook
 export const useCart = () => useContext(CartContext);

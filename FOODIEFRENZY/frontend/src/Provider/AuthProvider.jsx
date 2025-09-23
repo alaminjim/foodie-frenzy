@@ -36,17 +36,15 @@ export const AuthProvider = ({ children }) => {
   const userLogout = () => {
     return signOut(auth);
   };
-
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      console.log("CurrentUser-->", currentUser?.email);
       if (currentUser?.email) {
         setUser(currentUser);
       }
-      console.log("userLogged-->", currentUser?.email);
       setLoading(false);
-
-      return () => unsubscribe();
     });
+    return () => unsubscribe();
   }, []);
 
   const createUserAuth = {
